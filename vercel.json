@@ -1,0 +1,11 @@
+{
+    "rewrites": [
+      { "source": "/(.*)", "destination": "/frontend/user/pages/index.php" }
+    ],
+    "functions": {
+      "api/*.php": {
+        "runtime": "vercel-php@0.5.0"
+      }
+    }
+  }
+  

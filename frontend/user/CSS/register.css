@@ -1,0 +1,144 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                url('../photos/sardar.jpg') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+header {
+    background: #2c91c1;
+    padding: 10px 0;
+    text-align: center;
+}
+
+header .logo h1 {
+    color: #fff;
+    font-size: 28px;
+    margin: 0;
+}
+
+/* Registration Container */
+.container {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+h1.display-3 {
+    color: #fff;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Form Box */
+form {
+   
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    margin: auto;
+    margin-top:-50px;
+}
+
+form .form-control {
+    margin-bottom: 10px;
+    padding: 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+form .form-control:focus {
+    border-color: #2c91c1;
+    outline: none;
+    box-shadow: 0 0 5px rgba(44, 145, 193, 0.5);
+}
+
+form .btn-primary {
+    background: #2c91c1;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin-top: 10px;
+    transition: background 0.3s ease;
+    width: 100%;
+}
+
+form .btn-primary:hover {
+    background: #1b6fa8;
+}
+
+form p.lead {
+    margin-top: 20px;
+    font-size: 14px;
+    text-align: center;
+}
+
+form p.lead a {
+    color: #2c91c1;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+form p.lead a:hover {
+    text-decoration: underline;
+}
+
+/* Password Criteria */
+.password-criteria {
+    font-size: 0.9rem;
+    color: gray;
+    text-align: left;
+    margin-top: -10px;
+}
+
+.password-criteria span {
+    display: block;
+}
+
+.password-criteria .invalid {
+    color: red;
+}
+
+.password-criteria .valid {
+    color: green;
+}
+
+/* Success and Error Messages */
+.alert {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14px;
+}
+.password-criteria {
+    font-size: 0.9rem;
+    color: gray;
+    text-align: left; /* Ensures left alignment */
+    margin-top: -10px; /* Adjust the space above to keep it closer to the password field */
+}
+.password-criteria span {
+    display: block;
+}
+.invalid {
+    color: red;
+}
+.valid {
+    color: green;
+}
+/* Footer */
+footer {
+    text-align: center;
+    padding: 10px;
+    background: #2c91c1;
+    color: #fff;
+    font-size: 14px;
+    margin-top: 50px;
+}

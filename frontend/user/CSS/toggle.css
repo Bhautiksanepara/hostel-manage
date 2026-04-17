@@ -1,0 +1,45 @@
+/* Sidebar Styles */
+.sidebar {
+    width: 250px;
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    position: fixed;
+    height: 100%;
+    left: 0;
+    top: 0;
+    transition: transform 0.3s ease-in-out;
+}
+
+.sidebar.hidden {
+    transform: translateX(-100%); /* Hide sidebar */
+}
+
+/* Content Adjustments */
+.content {
+    margin-left: 250px;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+.content.full-width {
+    margin-left: 0; /* Expand content when sidebar is hidden */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+
+    .sidebar.hidden {
+        transform: translateX(-100%);
+    }
+
+    .content {
+        margin-left: 0;
+    }
+}

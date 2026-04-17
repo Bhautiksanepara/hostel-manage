@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modern UI Components - Quick Reference</title>
+
+    <!-- Global Design System -->
+    <link rel="stylesheet" href="frontend/global.css" />
+    <!-- Page-specific CSS (choose one) -->
+    <link rel="stylesheet" href="frontend/user/CSS/modern-dashboard.css" />
+
+    <style>
+      .reference-section {
+        margin-bottom: 40px;
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      }
+      .reference-section h2 {
+        margin-top: 0;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 3px solid #667eea;
+      }
+      .component-demo {
+        margin-bottom: 20px;
+        padding: 15px;
+        background: #f8fafc;
+        border-radius: 8px;
+      }
+      .component-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #667eea;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <div class="main-content">
+        <div class="page-header">
+          <h1>🎨 Modern UI Components - Quick Reference</h1>
+          <p>Copy-paste ready examples for all components</p>
+        </div>
+
+        <!-- BUTTONS SECTION -->
+        <div class="reference-section">
+          <h2>Buttons</h2>
+
+          <div class="component-demo">
+            <div class="component-title">Primary Buttons</div>
+            <button class="btn btn-primary">Primary Button</button>
+            <button class="btn btn-primary btn-sm">Small Primary</button>
+            <button class="btn btn-primary btn-lg">Large Primary</button>
+          </div>
+
+          <div class="component-demo">
+            <div class="component-title">Secondary Buttons</div>
+            <button class="btn btn-secondary">Secondary Button</button>
+            <button class="btn btn-secondary btn-sm">Small Secondary</button>
+          </div>
+
+          <div class="component-demo">
+            <div class="component-title">Status Buttons</div>
+            <button class="btn btn-success">✓ Success</button>
+            <button class="btn btn-danger">✗ Danger</button>
+          </div>
+
+          <div class="component-demo">
+            <div class="component-title">Full Width Button</div>
+            <button class="btn btn-primary btn-block">Full Width Button</button>
+          </div>
+        </div>
+
+        <!-- CARDS SECTION -->
+        <div class="reference-section">
+          <h2>Cards</h2>
+
+          <div class="card" style="margin-bottom: 15px">
+            <div class="card-header">
+              <h3 style="color: white">Card Title</h3>
+            </div>
+            <div class="card-body">
+              This is the main content of the card. You can put any content
+              here.
+            </div>
+            <div class="card-footer">
+              <button class="btn btn-sm btn-primary">Action</button>
+            </div>
+          </div>
+
+          <div class="widget-card" style="margin-bottom: 15px">
+            <div class="widget-icon primary">📊</div>
+            <div class="widget-label">Total Students</div>
+            <div class="widget-value">245</div>
+            <div class="widget-footer">↑ 12% from last month</div>
+          </div>
+        </div>
+
+        <!-- BADGES SECTION -->
+        <div class="reference-section">
+          <h2>Badges & Status</h2>
+
+          <div class="component-demo">
+            <div class="component-title">Status Badges</div>
+            <span class="badge badge-primary">Primary</span>
+            <span class="badge badge-success">Success</span>
+            <span class="badge badge-warning">Warning</span>
+            <span class="badge badge-danger">Danger</span>
+          </div>
+
+          <div class="component-demo">
+            <div class="component-title">Fee Status Badges</div>
+            <span class="status-badge status-pending">Pending</span>
+            <span class="status-badge status-paid">Paid</span>
+            <span class="status-badge status-rejected">Rejected</span>
+          </div>
+        </div>
+
+        <!-- ALERTS SECTION -->
+        <div class="reference-section">
+          <h2>Alerts</h2>
+
+          <div class="alert alert-success" style="margin-bottom: 15px">
+            ✓ Payment successful! Your fee has been updated.
+          </div>
+
+          <div class="alert alert-danger" style="margin-bottom: 15px">
+            ✗ Error occurred! Please try again.
+          </div>
+
+          <div class="alert alert-warning" style="margin-bottom: 15px">
+            ⚠ Warning: This action cannot be undone.
+          </div>
+
+          <div class="alert alert-info" style="margin-bottom: 15px">
+            ℹ Please review your details before submitting.
+          </div>
+        </div>
+
+        <!-- FORMS SECTION -->
+        <div class="reference-section">
+          <h2>Form Elements</h2>
+
+          <form style="max-width: 500px">
+            <div class="form-group">
+              <label for="name">Full Name</label>
+              <input type="text" id="name" placeholder="Enter your name" />
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" placeholder="Enter your email" />
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                placeholder="Enter password"
+              />
+            </div>
+
+            <div class="form-check">
+              <input type="checkbox" id="remember" />
+              <label for="remember">Remember me</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">
+              Submit
+            </button>
+          </form>
+        </div>
+
+        <!-- TABLES SECTION -->
+        <div class="reference-section">
+          <h2>Tables</h2>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>OTR Number</th>
+                <th>Name</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>240001</td>
+                <td>John Doe</td>
+                <td>₹25,000</td>
+                <td>
+                  <span class="status-badge status-pending">Pending</span>
+                </td>
+                <td><button class="btn btn-sm btn-primary">View</button></td>
+              </tr>
+              <tr>
+                <td>240002</td>
+                <td>Jane Smith</td>
+                <td>₹25,000</td>
+                <td><span class="status-badge status-paid">Paid</span></td>
+                <td><button class="btn btn-sm btn-success">Verify</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- MODALS SECTION -->
+        <div class="reference-section">
+          <h2>Modals</h2>
+
+          <button
+            class="btn btn-primary"
+            onclick="
+              document.getElementById('demoModal').classList.add('active')
+            "
+          >
+            Open Modal
+          </button>
+
+          <!-- Modal -->
+          <div class="modal" id="demoModal">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3>Confirm Action</h3>
+                <button
+                  class="modal-close"
+                  onclick="
+                    document
+                      .getElementById('demoModal')
+                      .classList.remove('active')
+                  "
+                >
+                  &times;
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>
+                  Are you sure you want to proceed with this action? This cannot
+                  be undone.
+                </p>
+              </div>
+              <div class="modal-footer">
+                <button
+                  class="btn btn-secondary"
+                  onclick="
+                    document
+                      .getElementById('demoModal')
+                      .classList.remove('active')
+                  "
+                >
+                  Cancel
+                </button>
+                <button class="btn btn-primary">Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- UTILITIES SECTION -->
+        <div class="reference-section">
+          <h2>Utility Classes</h2>
+
+          <div class="component-demo">
+            <div class="component-title">Spacing</div>
+            <div
+              style="
+                background: #e0e7ff;
+                padding: var(--spacing-lg);
+                margin-bottom: var(--spacing-md);
+              "
+            >
+              Padding: var(--spacing-lg) | Margin-bottom: var(--spacing-md)
+            </div>
+          </div>
+
+          <div class="component-demo">
+            <div class="component-title">Text Alignment</div>
+            <p class="text-center">Center aligned text</p>
+            <p class="text-right">Right aligned text</p>
+            <p class="text-muted">Muted text color</p>
+          </div>
+
+          <div class="component-demo">
+            <div class="component-title">Flexbox</div>
+            <div class="flex gap-md">
+              <button class="btn btn-sm btn-primary">Button 1</button>
+              <button class="btn btn-sm btn-secondary">Button 2</button>
+              <button class="btn btn-sm btn-primary">Button 3</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CSS VARIABLES SECTION -->
+        <div class="reference-section">
+          <h2>Available CSS Variables</h2>
+
+          <div class="component-demo">
+            <div class="component-title">Colors</div>
+            <code style="display: block; font-size: 12px; line-height: 1.6">
+              --primary: #667eea<br />
+              --accent: #764ba2<br />
+              --success: #10b981<br />
+              --warning: #f59e0b<br />
+              --danger: #ef4444<br />
+              --dark: #1e293b<br />
+              --gray: #64748b<br />
+              --white: #ffffff
+            </code>
+          </div>
+
+          <div class="component-demo">
+            <div class="component-title">Spacing</div>
+            <code style="display: block; font-size: 12px; line-height: 1.6">
+              --spacing-xs: 4px<br />
+              --spacing-sm: 8px<br />
+              --spacing-md: 16px<br />
+              --spacing-lg: 24px<br />
+              --spacing-xl: 32px<br />
+              --spacing-2xl: 48px
+            </code>
+          </div>
+
+          <div class="component-demo">
+            <div class="component-title">Typography</div>
+            <code style="display: block; font-size: 12px; line-height: 1.6">
+              --font-xs: 12px<br />
+              --font-sm: 14px<br />
+              --font-base: 16px<br />
+              --font-lg: 18px<br />
+              --font-xl: 20px<br />
+              --font-2xl: 24px<br />
+              --font-3xl: 32px
+            </code>
+          </div>
+
+          <div class="component-demo">
+            <div class="component-title">Transitions</div>
+            <code style="display: block; font-size: 12px; line-height: 1.6">
+              --transition-fast: 150ms ease-in-out<br />
+              --transition: 200ms ease-in-out<br />
+              --transition-slow: 300ms ease-in-out
+            </code>
+          </div>
+        </div>
+
+        <!-- UPDATING PAGES SECTION -->
+        <div class="reference-section">
+          <h2>How to Update Your Pages</h2>
+
+          <div
+            style="
+              background: #f8fafc;
+              padding: 20px;
+              border-radius: 8px;
+              border-left: 4px solid #667eea;
+            "
+          >
+            <h4 style="margin-top: 0">Student Pages (user/)</h4>
+            <pre><code>&lt;!-- Include Global Styles First --&gt;
+&lt;link rel="stylesheet" href="../../global.css"&gt;
+
+&lt;!-- Include Page-Specific CSS --&gt;
+&lt;link rel="stylesheet" href="modern-dashboard.css"&gt;
+&lt;!-- OR --&gt;
+&lt;link rel="stylesheet" href="modern-auth.css"&gt;
+&lt;!-- OR --&gt;
+&lt;link rel="stylesheet" href="modern-fees.css"&gt;</code></pre>
+          </div>
+
+          <div
+            style="
+              background: #f8fafc;
+              padding: 20px;
+              border-radius: 8px;
+              border-left: 4px solid #667eea;
+              margin-top: 15px;
+            "
+          >
+            <h4 style="margin-top: 0">Admin Pages (admin/)</h4>
+            <pre><code>&lt;!-- Include Global Styles First --&gt;
+&lt;link rel="stylesheet" href="../../../global.css"&gt;
+
+&lt;!-- Include Admin CSS --&gt;
+&lt;link rel="stylesheet" href="modern-admin.css"&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Close modal when clicking outside
+      document
+        .getElementById("demoModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) {
+            this.classList.remove("active");
+          }
+        });
+    </script>
+  </body>
+</html>

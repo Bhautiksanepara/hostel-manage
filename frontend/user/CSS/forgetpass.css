@@ -1,0 +1,93 @@
+/* General Body Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to right, #e7e7e7 0%, #2c91c1 100%);
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container Styling */
+.container {
+    margin-top: 5%;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 40px 30px;
+    max-width: 500px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Header Text Styling */
+h2.display-4 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+/* Form Input Styling */
+form input[type="email"] {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+/* Input Placeholder Styling */
+form input[type="email"]::placeholder {
+    color: #aaa;
+}
+
+/* Submit Button Styling */
+form input[type="submit"] {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #2c91c1;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+/* Submit Button Hover Effect */
+form input[type="submit"]:hover {
+    background-color: #2c91c1;
+}
+
+/* Alert Styling */
+.alert {
+    margin-top: 20px;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 0.9rem;
+}
+
+/* Success Message */
+.alert-success {
+    background-color: #d4edda;
+    color: #2c91c1;
+}
+
+/* Warning Message */
+.alert-warning {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+/* Error Message */
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Responsive Design */
+@media (max-width: 576px) {
+    .container {
+        padding: 20px;
+    }
+    h2.display-4 {
+        font-size: 1.8rem;
+    }
+}
