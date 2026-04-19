@@ -35,6 +35,7 @@ $pending_fee = $result->fetch_assoc();
 $qr_generated = false;
 $qr_code_image = null;
 $upi_url = null;
+$qr_error = null;
 $pending_amount = 0;
 
 if ($pending_fee) {
@@ -44,7 +45,15 @@ if ($pending_fee) {
     $qr_gen = new UPIQRCodeGenerator($conn);
     $qr_code_image = $qr_gen->generateQRCodeBase64($pending_amount, $otr_number, $student_name, 400);
     $upi_url = $qr_gen->generateUPIURL($pending_amount, $otr_number, $student_name);
-    $qr_generated = true;
+
+    if (!$qr_code_image) {
+        $qr_code_image = $qr_gen->generateQRCodeImageURL($pending_amount, $otr_number, $student_name, 400);
+    }
+
+    $qr_generated = !empty($qr_code_image) && !empty($upi_url);
+    if (!$qr_generated) {
+        $qr_error = 'Unable to generate the QR code right now. Please contact the hostel office.';
+    }
 }
 
 $stmt->close();
@@ -316,6 +325,14 @@ $stmt->close();
         <!-- Payment Method Info -->
         <div class="payment-method">
             <small>💰 Payment received by: <strong>Pateldham Hostel</strong></small>
+        </div>
+
+    <?php elseif ($pending_fee && !$qr_generated): ?>
+        
+        <!-- QR Generation Error -->
+        <div class="amount-due">
+            <h5>QR Code Generation Failed</h5>
+            <p style="margin: 8px 0 0;"><?php echo htmlspecialchars($qr_error); ?></p>
         </div>
 
     <?php else: ?>

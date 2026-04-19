@@ -25,10 +25,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $fileType = $_FILES['receiptFile']['type'];
         $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
-        // Get other form inputs
-        $upi = $_POST['upi_id'];
-        $transaction_id = $_POST['transaction_id'];
-        $amount = $_POST['amount'];
+        // Get and validate other form inputs. Older payment forms did not
+        // submit upi_id, so keep a safe default instead of crashing.
+        $upi = trim($_POST['upi_id'] ?? 'pateldham@upi');
+        $transaction_id = trim($_POST['transaction_id'] ?? '');
+        $amount = trim($_POST['amount'] ?? '');
+
+        if ($upi === '') {
+            $upi = 'pateldham@upi';
+        }
+
+        if ($transaction_id === '' || $amount === '' || !is_numeric($amount)) {
+            echo "<script>alert('Please enter a valid transaction ID and amount.'); window.history.back();</script>";
+            exit();
+        }
 
         // Define the upload directory
         $uploadFileDir = '../../uploads/';
@@ -65,8 +75,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 if ($count > 0) {
                     // OTR number exists, proceed with the insertion
-                    $stmt = $conn->prepare("INSERT INTO receipts (otr_number, file_path, upi_id, transaction_id, amount) VALUES (?, ?, ?, ?, ?)");
-                    $stmt->bind_param("sssss", $otr_number, $dest_path, $upi, $transaction_id, $amount);
+                    $receipt_path = '';
+                    $stmt = $conn->prepare("INSERT INTO receipts (otr_number, file_path, upi_id, transaction_id, amount, receipt_path) VALUES (?, ?, ?, ?, ?, ?)");
+                    $stmt->bind_param("ssssss", $otr_number, $dest_path, $upi, $transaction_id, $amount, $receipt_path);
 
                     if ($stmt->execute()) {
                         echo "<script>alert('Receipt uploaded successfully!');</script>";

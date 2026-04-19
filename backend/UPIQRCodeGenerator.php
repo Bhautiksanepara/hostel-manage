@@ -10,9 +10,9 @@
 
 class UPIQRCodeGenerator {
     private $conn;
-    private $upi_id;
-    private $receiving_name;
-    private $merchant_category;
+    private $upi_id = 'pateldham@upi';
+    private $receiving_name = 'Pateldham Hostel';
+    private $merchant_category = 'Education';
     
     public function __construct($db_connection = null) {
         if ($db_connection) {
@@ -35,6 +35,10 @@ class UPIQRCodeGenerator {
             $this->merchant_category = $config['merchant_category'];
             return true;
         }
+
+        // Keep QR generation usable even when the optional upi_config table
+        // has not been imported yet. Admin can still override this later.
+        error_log("UPI config not found; using default Pateldham Hostel UPI configuration.");
         return false;
     }
     
@@ -62,7 +66,7 @@ class UPIQRCodeGenerator {
         
         // Format: upi://pay?pa=UPI_ID&pn=NAME&am=AMOUNT&tn=DESCRIPTION&tr=REFERENCE
         $upi_url = sprintf(
-            'upi://pay?pa=%s&pn=%s&am=%.2f&tn=%s&tr=%s&mc=%s',
+            'upi://pay?pa=%s&pn=%s&am=%.2f&cu=INR&tn=%s&tr=%s&mc=%s',
             urlencode($this->upi_id),
             urlencode($this->receiving_name),
             $amount,
@@ -72,6 +76,25 @@ class UPIQRCodeGenerator {
         );
         
         return $upi_url;
+    }
+
+    /**
+     * Generate QR Server image URL.
+     *
+     * This is useful as a fallback when PHP cannot fetch remote images because
+     * allow_url_fopen or outbound SSL/network access is disabled on the server.
+     */
+    public function generateQRCodeImageURL($amount, $otr_number, $student_name = 'Student', $size = 300) {
+        $upi_url = $this->generateUPIURL($amount, $otr_number, $student_name);
+
+        if (!$upi_url) {
+            return null;
+        }
+
+        return "https://api.qrserver.com/v1/create-qr-code/?" . http_build_query([
+            'size' => "{$size}x{$size}",
+            'data' => $upi_url,
+        ]);
     }
     
     /**
@@ -91,12 +114,8 @@ class UPIQRCodeGenerator {
             return null;
         }
         
-        // Use QR Server API (more reliable than Google Charts)
-        // https://qr-server.com is free and doesn't have URL length limitations like Google Charts
-        $qr_url = "https://api.qrserver.com/v1/create-qr-code/?" . http_build_query([
-            'size' => "{$size}x{$size}",
-            'data' => $upi_url,
-        ]);
+        // Use QR Server API (more reliable than Google Charts).
+        $qr_url = $this->generateQRCodeImageURL($amount, $otr_number, $student_name, $size);
         
         // Set timeout and error handling
         $context = stream_context_create([

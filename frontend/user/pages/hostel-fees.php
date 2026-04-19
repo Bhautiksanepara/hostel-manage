@@ -19,14 +19,22 @@ if (!isset($_SESSION['otr_number'])) {
 function resolveReceiptFilePath($path) {
     $normalizedPath = str_replace('\\', '/', trim((string) $path));
     $normalizedPath = preg_replace('#^(\.\./)+#', '', $normalizedPath);
-    return '../../' . ltrim($normalizedPath, '/');
+    $normalizedPath = preg_replace('#^hostel-manage/#', '', ltrim($normalizedPath, '/'));
+    return '/hostel-manage/' . $normalizedPath;
+}
+
+function receiptFileExists($path) {
+    $normalizedPath = str_replace('\\', '/', trim((string) $path));
+    $normalizedPath = preg_replace('#^(\.\./)+#', '', $normalizedPath);
+    $normalizedPath = preg_replace('#^hostel-manage/#', '', ltrim($normalizedPath, '/'));
+    return $normalizedPath !== '' && file_exists($_SERVER['DOCUMENT_ROOT'] . '/hostel-manage/' . $normalizedPath);
 }
 
 $otr_number = $_SESSION['otr_number'];
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/hostel-manage/backend/UPIQRCodeGenerator.php';
 
-$checkFees = "SELECT amount, status FROM fees WHERE otr_number = ?";
+$checkFees = "SELECT amount, status FROM fees WHERE otr_number = ? ORDER BY FIELD(status, 'pending', 'paid'), id DESC LIMIT 1";
 $stmt = $conn->prepare($checkFees);
 $stmt->bind_param("s", $otr_number);
 $stmt->execute();
@@ -48,10 +56,15 @@ $displayAmount = is_numeric($amountToPay) ? number_format((float) $amountToPay, 
 
 $qr_code_image = null;
 $upi_url = null;
+$upi_config = null;
 if ($hasPendingFees && is_numeric($amountToPay)) {
     $qr_gen = new UPIQRCodeGenerator($conn);
     $qr_code_image = $qr_gen->generateQRCodeBase64($amountToPay, $otr_number, $student_name, 350);
+    if (!$qr_code_image) {
+        $qr_code_image = $qr_gen->generateQRCodeImageURL($amountToPay, $otr_number, $student_name, 350);
+    }
     $upi_url = $qr_gen->generateUPIURL($amountToPay, $otr_number, $student_name);
+    $upi_config = $qr_gen->getConfig();
 }
 ?>
 <!DOCTYPE html>
@@ -138,10 +151,12 @@ if ($hasPendingFees && is_numeric($amountToPay)) {
                                             <td>
                                                 <?php if (htmlspecialchars($row['status']) === 'pending'): ?>
                                                     <span class="receipt-empty">Receipt will be available after approval</span>
-                                                <?php else: ?>
+                                                <?php elseif (!empty($row['receipt_path']) && receiptFileExists($row['receipt_path'])): ?>
                                                     <a href="<?php echo htmlspecialchars(resolveReceiptFilePath($row['receipt_path'])); ?>" target="_blank" class="btn btn-primary btn-sm">
                                                         Download Receipt
                                                     </a>
+                                                <?php else: ?>
+                                                    <span class="receipt-empty">Approved receipt PDF is being generated. Please contact admin if it is not available.</span>
                                                 <?php endif; ?>
                                             </td>
                                         </tr>
@@ -211,6 +226,7 @@ if ($hasPendingFees && is_numeric($amountToPay)) {
                         <form id="receiptUploadForm" action="../../../backend/user/upload_receipt.php" method="POST" enctype="multipart/form-data" class="receipt-form">
                             <input type="hidden" name="otr_number" value="<?php echo htmlspecialchars($otr_number); ?>">
                             <input type="hidden" name="amount" value="<?php echo htmlspecialchars($amountToPay); ?>">
+                            <input type="hidden" name="upi_id" value="<?php echo htmlspecialchars($upi_config['upi_id'] ?? 'pateldham@upi'); ?>">
 
                             <div class="form-group stacked">
                                 <label for="transaction_id">Transaction ID</label>

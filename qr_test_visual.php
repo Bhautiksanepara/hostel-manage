@@ -33,6 +33,9 @@ $pending_fee = $result->fetch_assoc();
 $qr_gen = new UPIQRCodeGenerator($conn);
 $qr_image = $qr_gen->generateQRCodeBase64($pending_fee['amount'] ?? 0, $otr_number, $student['firstName'] ?? 'Student', 350);
 $upi_url = $qr_gen->generateUPIURL($pending_fee['amount'] ?? 0, $otr_number, $student['firstName'] ?? 'Student');
+if (!$qr_image) {
+    $qr_image = $qr_gen->generateQRCodeImageURL($pending_fee['amount'] ?? 0, $otr_number, $student['firstName'] ?? 'Student', 350);
+}
 
 ?>
 <!DOCTYPE html>

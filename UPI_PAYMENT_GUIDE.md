@@ -24,6 +24,7 @@ Admin can:
 **QR Code Generation Issue - RESOLVED**
 
 Previous implementation used Google Charts API which had limitations. Now uses **QR Server API** for:
+
 - ✓ More reliable QR code generation
 - ✓ No URL length limitations
 - ✓ Better error handling
@@ -369,6 +370,7 @@ Tables: upi_config, receipts (both exist) ✓
 **Problem:** "Failed to generate QR code" message
 
 **Solution:**
+
 1. Check internet connection (QR Server API needs network)
 2. Verify UPI ID is configured in admin panel
 3. Check error logs: `C:\xampp\logs\php_error.log`
@@ -376,21 +378,23 @@ Tables: upi_config, receipts (both exist) ✓
 
 **Common Issues:**
 
-| Issue | Cause | Fix |
-|-------|-------|-----|
-| Network timeout | QR Server is slow | Increase timeout in code (line 107 in UPIQRCodeGenerator.php) |
-| Invalid PNG | QR API returned error | Check internet, try again |
-| Amount not showing | UPI URL is null | Verify UPI config is set |
-| QR scans but opens wrong | UPI encoding error | Check characters in OTR number |
+| Issue                    | Cause                 | Fix                                                           |
+| ------------------------ | --------------------- | ------------------------------------------------------------- |
+| Network timeout          | QR Server is slow     | Increase timeout in code (line 107 in UPIQRCodeGenerator.php) |
+| Invalid PNG              | QR API returned error | Check internet, try again                                     |
+| Amount not showing       | UPI URL is null       | Verify UPI config is set                                      |
+| QR scans but opens wrong | UPI encoding error    | Check characters in OTR number                                |
 
 ### ✅ Testing the Fix
 
 **Visual Test Page:**
+
 ```
 http://localhost/hostel-manage/qr_test_visual.php
 ```
 
 **Expected Results:**
+
 - ✓ See QR code displayed on page
 - ✓ QR code is scannable (clear and visible)
 - ✓ Amount is ₹25,000.00 (locked)
@@ -398,6 +402,7 @@ http://localhost/hostel-manage/qr_test_visual.php
 - ✓ Can click "Or Click Here to Pay" button
 
 **Mobile Test:**
+
 1. Open test page on browser
 2. On Android/iPhone: Scan QR code with camera
 3. Opens UPI app (Google Pay/PhonePe)
@@ -411,6 +416,7 @@ http://localhost/hostel-manage/qr_test_visual.php
 **API Endpoint:** `https://api.qrserver.com/v1/create-qr-code/`
 
 **Key Parameters:**
+
 - `size`: 300x300 or 350x350 pixels
 - `data`: Complete UPI URL with encoded parameters
 - `timeout`: 10 seconds

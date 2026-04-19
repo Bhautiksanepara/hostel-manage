@@ -24,7 +24,7 @@ if (!isset($_SESSION['loggedIn']) || $_SESSION['loggedIn'] !== 1 || $_SESSION['r
 // $otr = $_SESSION['otr_number'];
 function generatePDFReceipt($receiptData) {
     global $conn;
-    $otr = $_SESSION['otr_number'];
+    $otr = $receiptData['otr_number'];
     // Ensure the receipts folder exists inside uploads directory
     if (!file_exists('../../../uploads/receipts/')) {
         mkdir('../../../uploads/receipts/', 0777, true);
@@ -91,9 +91,11 @@ function generatePDFReceipt($receiptData) {
     $pdf->SetFont('Arial', 'I', 10);
     $pdf->Cell(0, 10, 'Total Amount in Words: ' . ucwords($receiptData['amount_in_words']), 0, 1, 'C');
 
-    // Save the PDF
-    $receipt_path = '../../../uploads/receipts/' . $receiptData['otr_number'] . '.pdf';
-    $pdf->Output('F', $receipt_path);
+    // Save the PDF. Store a web-root relative path so student downloads work
+    // from any page depth.
+    $receipt_file_path = '../../../uploads/receipts/' . $receiptData['otr_number'] . '.pdf';
+    $receipt_path = 'uploads/receipts/' . $receiptData['otr_number'] . '.pdf';
+    $pdf->Output('F', $receipt_file_path);
 
     // Update database with the path to the generated PDF receipt
     $stmt = $conn->prepare("UPDATE receipts SET receipt_path = ? WHERE id = ?");
@@ -110,17 +112,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
     $action = $_POST['action'];
 
     if ($action == 'approve') {
-        $stmt = $conn->prepare("UPDATE receipts SET status = 'approved' WHERE id = ?");
-        $stmt->bind_param("i", $receipt_id);
-        $stmt->execute();
-        
-       $stmt2 = $conn->prepare("UPDATE fees SET status = 'paid' WHERE otr_number = ?");
-        $stmt2->bind_param("s", $otr);
-
-     // Use "s" if otr_number is a string
-        $stmt2->execute();
-        $stmt2->close();
-
         // Fetch receipt data
         $receipt_query = $conn->prepare("SELECT r.otr_number, r.upi_id, r.transaction_id, r.amount, u.firstName FROM receipts r INNER JOIN users u ON r.otr_number = u.otr_number WHERE r.id = ?");
         $receipt_query->bind_param("i", $receipt_id);
@@ -129,6 +120,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
         $receipt_data = $receipt_result->fetch_assoc();
 
         if ($receipt_data) {
+            $stmt = $conn->prepare("UPDATE receipts SET status = 'approved' WHERE id = ?");
+            $stmt->bind_param("i", $receipt_id);
+            $stmt->execute();
+            $stmt->close();
+
+            $stmt2 = $conn->prepare("UPDATE fees SET status = 'paid', payment_date = NOW() WHERE otr_number = ? AND status = 'pending'");
+            $stmt2->bind_param("s", $receipt_data['otr_number']);
+            $stmt2->execute();
+            $stmt2->close();
+
             $receiptData = [
                 'id' => $receipt_id,
                 'registration_id' => 'SDH'.$receipt_data['otr_number'],
@@ -160,9 +161,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
         $stmt = $conn->prepare("UPDATE receipts SET status = 'rejected' WHERE id = ?");
         $stmt->bind_param("i", $receipt_id);
         $stmt->execute();
+        $stmt->close();
     }
-
-    $stmt->close();
 }
 
 // Fetch receipts

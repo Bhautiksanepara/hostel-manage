@@ -25,15 +25,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $receipt_id = intval($_POST['receipt_id']);
         $otr_number = $conn->real_escape_string($_POST['otr_number']);
         
-        // Update receipt status to verified
-        $stmt = $conn->prepare("UPDATE receipts SET verified_by_admin = 1, admin_verified_at = NOW() WHERE id = ?");
+        // Update receipt and student fee statuses together so student pages
+        // immediately show the payment as completed after admin approval.
+        $stmt = $conn->prepare("UPDATE receipts SET status = 'approved', verified_by_admin = 1, admin_verified_at = NOW() WHERE id = ?");
         $stmt->bind_param("i", $receipt_id);
         if ($stmt->execute()) {
             // Update fee status to paid
-            $stmt2 = $conn->prepare("UPDATE fees SET status = 'paid', payment_date = NOW() WHERE otr_number = ? AND status = 'pending' LIMIT 1");
+            $stmt2 = $conn->prepare("UPDATE fees SET status = 'paid', payment_date = NOW() WHERE otr_number = ? AND status = 'pending'");
             $stmt2->bind_param("s", $otr_number);
             $stmt2->execute();
             $stmt2->close();
+
+            $stmt3 = $conn->prepare("UPDATE users SET fees_status = 'paid' WHERE otr_number = ?");
+            $stmt3->bind_param("s", $otr_number);
+            $stmt3->execute();
+            $stmt3->close();
             
             $message = "<div class='alert alert-success'>✅ Payment verified successfully!</div>";
         } else {
@@ -47,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $rejection_reason = $conn->real_escape_string($_POST['rejection_reason']);
         
         // Update receipt status to rejected
-        $stmt = $conn->prepare("UPDATE receipts SET verified_by_admin = 0, rejection_note = ? WHERE id = ?");
+        $stmt = $conn->prepare("UPDATE receipts SET status = 'rejected', verified_by_admin = 0, rejection_note = ? WHERE id = ?");
         $stmt->bind_param("si", $rejection_reason, $receipt_id);
         if ($stmt->execute()) {
             $message = "<div class='alert alert-warning'>⚠️ Payment rejected. Student will be notified.</div>";

@@ -14,21 +14,11 @@ if ($con->connect_error) {
     die("Connection failed: " . $con->connect_error);
 }
 
-// Fetch all gate pass requests
-$query = "SELECT * FROM gatepass where status = 'pending'";
-$result = $con->query($query);
-
-$data = [];
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $data[] = $row; // Collect data
-    }
-}
-
-// Approve or Reject Request
+// Approve or reject before loading pending rows, so the table refreshes correctly.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $request_id = $_POST['request_id'];
-    $action = $_POST['action'];
+    $request_id = (int)($_POST['request_id'] ?? 0);
+    $action = $_POST['action'] ?? '';
+    $update_query = '';
 
     if ($action === 'approve') {
         $update_query = "UPDATE gatepass SET status = 'Approved' WHERE id = ?";
@@ -36,14 +26,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $update_query = "UPDATE gatepass SET status = 'Rejected' WHERE id = ?";
     }
 
-    $update_stmt = $con->prepare($update_query);
-    $update_stmt->bind_param("i", $request_id);
-    $update_stmt->execute();
-    $update_stmt->close();
+    if ($request_id > 0 && $update_query !== '') {
+        $update_stmt = $con->prepare($update_query);
+        $update_stmt->bind_param("i", $request_id);
+        $update_stmt->execute();
+        $update_stmt->close();
+    }
+}
 
-    // Redirect to the same page to refresh the data
-    // header("Location: manage-requests.php");
-    // exit();
+// Fetch all pending gate pass requests
+$query = "SELECT * FROM gatepass WHERE status = 'pending' ORDER BY id DESC";
+$result = $con->query($query);
+
+$data = [];
+if ($result && $result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row; // Collect data
+    }
 }
 
 $con->close();

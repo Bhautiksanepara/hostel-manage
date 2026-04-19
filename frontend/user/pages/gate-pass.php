@@ -1,4 +1,10 @@
-
+<?php
+session_start();
+if (!isset($_SESSION['loggedIn']) || $_SESSION['loggedIn'] !== 1 || empty($_SESSION['otr_number'])) {
+    header('Location: login.php');
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 

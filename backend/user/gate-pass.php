@@ -1,7 +1,11 @@
 <?php
 session_start();
 include '../dbconnection.php';
-// Database connection
+
+if (!isset($_SESSION['loggedIn']) || $_SESSION['loggedIn'] !== 1 || empty($_SESSION['otr_number'])) {
+    header('Location: ../../frontend/user/pages/login.php');
+    exit();
+}
 
 // Check connection
 if ($conn->connect_error) {
@@ -28,12 +32,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $request_id = uniqid('GP'); // Generates a unique ID like GP64e7a5b0e1f56
 
         // Get form data
-        $type = $_POST['type'];
-        $reason = $_POST['reason'];
-        $out_time = $_POST['out_time'];
-        $in_time = $_POST['in_time'];
-        $date_from = $_POST['date_from'];
-        $date_to = $_POST['date_to'];
+        $type = $_POST['type'] ?? '';
+        $reason = $_POST['reason'] ?? '';
+        $out_time = $_POST['out_time'] ?? '';
+        $in_time = $_POST['in_time'] ?? '';
+        $date_from = $_POST['date_from'] ?? '';
+        $date_to = $_POST['date_to'] ?? '';
+
+        if (!in_array($type, ['Gate', 'Leave'], true) || $reason === '' || $out_time === '' || $in_time === '' || $date_from === '' || $date_to === '') {
+            echo "<script>alert('Please fill all gate pass fields correctly.'); window.history.back();</script>";
+            exit();
+        }
+
+        if ($date_to < $date_from) {
+            echo "<script>alert('Return date cannot be before out date.'); window.history.back();</script>";
+            exit();
+        }
 
         // Insert into gatepass table
         $sql = "INSERT INTO gatepass (request_id, otr_number, name, type, reason, status, date_from, out_time, date_to, in_time)
