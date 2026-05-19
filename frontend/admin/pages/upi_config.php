@@ -12,6 +12,21 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+$conn->query("CREATE TABLE IF NOT EXISTS upi_config (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    upi_id VARCHAR(100) NOT NULL,
+    receiving_name VARCHAR(150) NOT NULL,
+    merchant_category VARCHAR(100) NOT NULL DEFAULT 'Education',
+    is_active TINYINT(1) NOT NULL DEFAULT 1,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci");
+
+$conn->query("INSERT INTO upi_config (upi_id, receiving_name, merchant_category, is_active)
+    SELECT 'pateldham@upi', 'Pateldham Hostel', 'Education', 1
+    WHERE NOT EXISTS (SELECT 1 FROM upi_config LIMIT 1)");
+
 $message = '';
 
 // Handle form submission

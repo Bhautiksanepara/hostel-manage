@@ -1,5 +1,7 @@
 <?php
 include '../../../backend/adminpendingfees.php';
+$reminderFlash = $_SESSION['reminder_flash'] ?? null;
+unset($_SESSION['reminder_flash']);
 ?>
 
 <!DOCTYPE html>
@@ -15,6 +17,30 @@ include '../../../backend/adminpendingfees.php';
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="../javascript/script.js"></script>
+    <style>
+        .admin-alert {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            padding: 14px 16px;
+            margin-bottom: 18px;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            font-size: 15px;
+        }
+
+        .admin-alert-success {
+            color: #14532d;
+            background: #dcfce7;
+            border-color: #86efac;
+        }
+
+        .admin-alert-danger {
+            color: #7f1d1d;
+            background: #fee2e2;
+            border-color: #fca5a5;
+        }
+    </style>
 </head>
 
 <body>
@@ -23,7 +49,17 @@ include '../../../backend/adminpendingfees.php';
 
     <div class="admin-content">
         <div class="admin-main">
-           
+
+<?php if ($reminderFlash): ?>
+    <script>
+        alert(<?php echo json_encode($reminderFlash['message']); ?>);
+    </script>
+    <div class="admin-alert <?php echo $reminderFlash['type'] === 'success' ? 'admin-alert-success' : 'admin-alert-danger'; ?>">
+        <strong><?php echo $reminderFlash['type'] === 'success' ? 'Success:' : 'Error:'; ?></strong>
+        <span><?php echo htmlspecialchars($reminderFlash['message']); ?></span>
+    </div>
+<?php endif; ?>
+
         <h1>Pending fees Students</h1>
 
 <!-- Student Dropdown -->
@@ -72,11 +108,6 @@ include '../../../backend/adminpendingfees.php';
         });
     });
 </script>
-
-</body>
-</html>
-
-
 
         </div>
     </div>

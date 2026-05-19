@@ -77,17 +77,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             require $_SERVER['DOCUMENT_ROOT'] . '/hostel-manage/PHPMailer/PHPMailer.php';
             require $_SERVER['DOCUMENT_ROOT'] . '/hostel-manage/PHPMailer/SMTP.php';
             
-            use PHPMailer\PHPMailer\PHPMailer;
-            use PHPMailer\PHPMailer\Exception;
-            
             try {
-                $mail = new PHPMailer(true);
+                $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
                 $mail->isSMTP();
                 $mail->Host = $config['smtp_host'];
                 $mail->SMTPAuth = true;
                 $mail->Username = $config['smtp_username'];
                 $mail->Password = $config['smtp_password'];
-                $mail->SMTPSecure = $config['use_tls'] ? PHPMailer::ENCRYPTION_STARTTLS : '';
+                $mail->SMTPSecure = $config['use_tls'] ? \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS : '';
                 $mail->Port = $config['smtp_port'];
                 
                 $mail->setFrom($config['from_email'], $config['from_name']);

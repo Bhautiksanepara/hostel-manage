@@ -10,19 +10,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Late Student Report</title>
-    <link rel="stylesheet" href="../../../global.css">
+    <link rel="stylesheet" href="../../global.css">
     <link rel="stylesheet" href="../CSS/modern-admin.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script>
         $(document).ready(function () {
-    $('#example').DataTable({
+    function initLateStudentTable() {
+        $('#example').DataTable({
         paging: true,
         searching: true,
         ordering: true,
         info: true
-    });
+        });
+    }
+
+    initLateStudentTable();
 
     // Fetch data when filter button is clicked
     $('#filter-btn').click(function () {
@@ -34,7 +38,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             type: 'POST',
             data: { start_date: startDate, end_date: endDate },
             success: function (response) {
+                if ($.fn.DataTable.isDataTable('#example')) {
+                    $('#example').DataTable().destroy();
+                }
                 $('#report-table').html(response);
+                initLateStudentTable();
             }
         });
     });

@@ -11,5 +11,7 @@
         <li><a href="room.php"><i class="fas fa-bed"></i> Room Allocation</a></li>
         <li><a href="roomhistory.php"><i class="fas fa-history"></i> Room Record</a></li>
         <li><a href="pendingfees.php"><i class="fas fa-user-times"></i> Pending Fees Students</a></li>
+        <li><a href="icard-requests.php"><i class="fas fa-id-card"></i> I-card Requests</a></li>
+        <li><a href="contact-messages.php"><i class="fas fa-envelope"></i> Contact Messages</a></li>
     </ul>
 </div>
