@@ -15,6 +15,12 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
 }
 
 /* ==========================================================
@@ -227,6 +233,7 @@ body {
   width: calc(100% - 280px);
   min-height: calc(100vh - 70px);
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 30px;
   transition:
     margin-left 0.34s cubic-bezier(0.22, 1, 0.36, 1),
@@ -241,6 +248,11 @@ body {
 
 .admin-page-header {
   margin-bottom: 30px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .admin-page-header h1 {
@@ -352,7 +364,9 @@ body {
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
   margin-bottom: 30px;
 }
 
@@ -379,6 +393,7 @@ body {
 table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 720px;
 }
 
 thead {
@@ -1093,6 +1108,19 @@ input[type="submit"]:hover {
   width: 100%;
 }
 
+.admin-main > * {
+  min-width: 0;
+}
+
+.table-header > * {
+  min-width: 0;
+}
+
+.admin-topbar-left,
+.admin-topbar-right {
+  min-width: 0;
+}
+
 /* ==========================================================
    RESPONSIVE DESIGN
    ========================================================== */
@@ -1128,6 +1156,14 @@ input[type="submit"]:hover {
   .admin-stats {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .admin-content {
+    padding: 24px;
+  }
+
+  .admin-page-header h1 {
+    font-size: 28px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1141,13 +1177,28 @@ input[type="submit"]:hover {
 
   .admin-topbar {
     left: 0;
-    padding: 0 16px;
+    right: 0;
+    height: auto;
+    min-height: 70px;
+    padding: 12px 16px;
+    flex-wrap: wrap;
+    gap: 12px;
   }
 
   .admin-content {
     margin-left: 0;
-    margin-top: 60px;
+    margin-top: 70px;
     padding: 16px;
+  }
+
+  .admin-topbar-left,
+  .admin-topbar-right {
+    width: 100%;
+  }
+
+  .admin-topbar-left,
+  .admin-topbar-right {
+    justify-content: space-between;
   }
 
   .admin-stats {
@@ -1179,6 +1230,16 @@ input[type="submit"]:hover {
 }
 
 @media (max-width: 480px) {
+  .admin-topbar {
+    min-height: 64px;
+    padding: 10px 12px;
+  }
+
+  .admin-content {
+    margin-top: 64px;
+    padding: 12px;
+  }
+
   .admin-page-header h1 {
     font-size: 20px;
   }
@@ -1189,7 +1250,7 @@ input[type="submit"]:hover {
 
   table {
     font-size: 11px;
-    overflow-x: auto;
+    min-width: 560px;
   }
 
   th,
@@ -1205,5 +1266,10 @@ input[type="submit"]:hover {
   .badge {
     padding: 4px 8px;
     font-size: 11px;
+  }
+
+  .admin-topbar-user span,
+  .admin-topbar-logout span {
+    display: none;
   }
 }

@@ -34,6 +34,53 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeThemedTimePickers();
 });
 
+document.addEventListener("click", (event) => {
+  const sidebar = document.querySelector(".admin-sidebar");
+  const topbar = document.querySelector(".admin-topbar");
+  const content = document.querySelector(".admin-content");
+  const toggle = event.target.closest(".toggle-btn");
+
+  if (
+    !sidebar ||
+    !topbar ||
+    !content ||
+    window.innerWidth > 1024 ||
+    toggle
+  ) {
+    return;
+  }
+
+  if (!event.target.closest(".admin-sidebar")) {
+    sidebar.classList.add("collapsed");
+    topbar.classList.add("sidebar-collapsed");
+    content.classList.add("sidebar-collapsed");
+  }
+});
+
+window.addEventListener("resize", () => {
+  const sidebar = document.querySelector(".admin-sidebar");
+  const topbar = document.querySelector(".admin-topbar");
+  const content = document.querySelector(".admin-content");
+
+  if (!sidebar || !topbar || !content) {
+    return;
+  }
+
+  if (window.innerWidth <= 1024) {
+    sidebar.classList.add("collapsed");
+    topbar.classList.add("sidebar-collapsed");
+    content.classList.add("sidebar-collapsed");
+    return;
+  }
+
+  const savedState = localStorage.getItem("adminSidebarCollapsed");
+  const shouldCollapse = savedState === "true";
+
+  sidebar.classList.toggle("collapsed", shouldCollapse);
+  topbar.classList.toggle("sidebar-collapsed", shouldCollapse);
+  content.classList.toggle("sidebar-collapsed", shouldCollapse);
+});
+
 function closeThemedControls(exceptElement = null) {
   document
     .querySelectorAll(

@@ -38,12 +38,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
             color: white;
             min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
         }
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 24px 40px;
+            gap: 16px;
         }
         header .logo h1 {
             margin: 0;
@@ -57,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
             max-width: 1180px;
             margin: 0 auto;
             padding: 40px;
+            width: 100%;
         }
         .description {
             max-width: 640px;
@@ -90,6 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
         .mySlides img {
             width: 100%;
             display: block;
+            object-fit: cover;
         }
         .text {
             padding: 20px;
@@ -101,6 +105,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
         .btn{
           border: 1px solid white;
           color:white;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
         }
         .contact-section {
             margin-top: 44px;
@@ -165,8 +172,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
             main {
                 padding: 20px;
             }
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .auth-buttons {
+                width: 100%;
+                display: flex;
+                gap: 12px;
+            }
+            header .auth-buttons a {
+                margin-left: 0;
+                flex: 1;
+            }
+            .description h2 {
+                font-size: 32px;
+            }
+            .description p {
+                font-size: 16px;
+                line-height: 1.7;
+            }
             .contact-section {
                 grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 480px) {
+            main {
+                padding: 16px;
+            }
+            .description h2,
+            .contact-copy h2 {
+                font-size: 26px;
+            }
+            .prev,
+            .next {
+                padding: 12px;
+                font-size: 18px;
+            }
+            .contact-form {
+                padding: 18px;
             }
         }
     </style>

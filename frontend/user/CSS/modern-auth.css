@@ -16,6 +16,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 20px;
+  overflow-x: hidden;
 }
 
 /* ==========================================================
@@ -26,6 +27,7 @@ body {
   display: flex;
   width: 100%;
   max-width: 1000px;
+  min-height: min(760px, calc(100vh - 40px));
   background: white;
   border-radius: 16px;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
@@ -69,6 +71,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-width: 0;
 }
 
 .auth-form h3 {
@@ -355,6 +358,8 @@ select {
   align-items: center;
   margin-bottom: 20px;
   font-size: 14px;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .helper-text a {
@@ -452,8 +457,13 @@ select {
    ========================================================== */
 
 @media (max-width: 768px) {
+  body {
+    align-items: flex-start;
+  }
+
   .auth-container {
     flex-direction: column;
+    min-height: auto;
   }
 
   .auth-left {
@@ -482,6 +492,7 @@ select {
 
   .auth-container {
     border-radius: 12px;
+    min-height: calc(100vh - 20px);
   }
 
   .auth-left,

@@ -15,6 +15,12 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
 }
 
 /* ==========================================================
@@ -268,6 +274,7 @@ body {
   width: calc(100% - 260px);
   min-height: calc(100vh - 70px);
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 30px;
   transition:
     margin-left 0.34s cubic-bezier(0.22, 1, 0.36, 1),
@@ -296,6 +303,11 @@ body {
 
 .page-header {
   margin-bottom: 30px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .page-header h1 {
@@ -308,6 +320,17 @@ body {
 .page-header p {
   color: #64748b;
   font-size: 14px;
+}
+
+.topbar-logo {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+.topbar-logo a {
+  color: #1e293b;
+  text-decoration: none;
 }
 
 /* ==========================================================
@@ -327,6 +350,7 @@ body {
   padding: 24px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   transition: all 0.3s;
+  min-width: 0;
 }
 
 .widget-card:hover {
@@ -381,7 +405,9 @@ body {
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
   margin-bottom: 30px;
 }
 
@@ -402,6 +428,7 @@ body {
 table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 640px;
 }
 
 thead {
@@ -614,6 +641,7 @@ tbody tr:last-child td {
 .form-group {
   margin-bottom: 20px;
   align-items: flex-start;
+  width: 100%;
 }
 
 label {
@@ -673,6 +701,7 @@ select {
 .themed-date,
 .themed-time {
   position: relative;
+  width: 100%;
 }
 
 .themed-native-select,
@@ -992,6 +1021,55 @@ input[type="submit"]:hover {
   border-radius: 10px;
 }
 
+.main-content > * {
+  min-width: 0;
+}
+
+.table-header > * {
+  min-width: 0;
+}
+
+.topbar-right,
+.topbar-left {
+  min-width: 0;
+}
+
+@media (max-width: 1200px) {
+  .content {
+    padding: 24px;
+  }
+
+  .page-header h1 {
+    font-size: 28px;
+  }
+
+  .widget-card {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 992px) {
+  .topbar {
+    padding: 0 20px;
+  }
+
+  .topbar-right {
+    gap: 12px;
+  }
+
+  .topbar-user span {
+    display: none;
+  }
+
+  .content {
+    padding: 20px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}
+
 /* ==========================================================
    RESPONSIVE DESIGN
    ========================================================== */
@@ -1016,21 +1094,41 @@ input[type="submit"]:hover {
 
   .content {
     margin-left: 0;
-    margin-top: 60px;
+    margin-top: 70px;
+    width: 100%;
     padding: 16px;
+  }
+
+  .content.full-width {
+    width: 100%;
   }
 
   .topbar {
     left: 0;
-    padding: 0 16px;
+    right: 0;
+    height: auto;
+    min-height: 70px;
+    padding: 12px 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .topbar-left,
+  .topbar-right {
+    width: 100%;
+  }
+
+  .topbar-left {
+    justify-content: space-between;
+  }
+
+  .topbar-right {
+    justify-content: space-between;
+    gap: 10px;
   }
 
   .dashboard-grid {
     grid-template-columns: 1fr;
-  }
-
-  .table {
-    font-size: 12px;
   }
 
   th,
@@ -1038,16 +1136,18 @@ input[type="submit"]:hover {
     padding: 12px 8px;
   }
 
-  .topbar-search {
-    width: 200px;
+  .table-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
   }
 
-  .topbar-search input {
-    width: 150px;
+  .page-header h1 {
+    font-size: 26px;
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
   .sidebar {
     width: 260px;
     top: 0;
@@ -1059,14 +1159,69 @@ input[type="submit"]:hover {
 
   .content {
     margin-left: 0;
+    padding: 14px;
   }
 
   .topbar {
     left: 0;
-    padding: 0 12px;
+    padding: 12px;
+  }
+
+  .topbar-logo {
+    font-size: 20px;
+  }
+
+  .topbar-logout span,
+  .topbar-user span {
+    display: none;
+  }
+
+  .page-header h1 {
+    font-size: 22px;
+  }
+
+  .widget-card,
+  .card,
+  .modal-body,
+  .modal-header,
+  .modal-footer {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .widget-value {
+    font-size: 24px;
+  }
+
+  table {
+    min-width: 560px;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar {
+    min-height: 64px;
+    padding: 10px 12px;
+  }
+
+  .content {
+    margin-top: 64px;
+    padding: 12px;
   }
 
   .modal-content {
     width: 95%;
+    max-height: calc(100vh - 24px);
+  }
+
+  .modal-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn,
+  button[type="submit"],
+  input[type="submit"] {
+    width: 100%;
   }
 }

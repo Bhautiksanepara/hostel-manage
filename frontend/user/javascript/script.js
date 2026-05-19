@@ -23,6 +23,16 @@ function toggleSidebar() {
     }
 }
 
+function closeSidebarOnMobile() {
+    const sidebar = document.querySelector('.sidebar');
+
+    if (!sidebar || window.innerWidth > 768) {
+        return;
+    }
+
+    sidebar.classList.remove('active');
+}
+
 // Toggle dropdown visibility
 function toggleDropdown() {
     const dropdown = document.getElementById('dropdown-menu');
@@ -40,9 +50,57 @@ window.onclick = function (event) {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+    const sidebar = document.querySelector('.sidebar');
+    const topbar = document.querySelector('.topbar');
+    const content = document.querySelector('.content');
+
+    if (sidebar && content && window.innerWidth <= 768) {
+        sidebar.classList.remove('active');
+        sidebar.classList.remove('hidden');
+        if (topbar) {
+            topbar.classList.remove('full-width');
+        }
+        content.classList.remove('full-width');
+    }
+
     initializeThemedSelects();
     initializeThemedDatePickers();
     initializeThemedTimePickers();
+});
+
+document.addEventListener('click', (event) => {
+    const sidebar = document.querySelector('.sidebar');
+    const toggle = event.target.closest('.toggle-btn');
+
+    if (!sidebar || window.innerWidth > 768 || toggle) {
+        return;
+    }
+
+    if (!event.target.closest('.sidebar')) {
+        sidebar.classList.remove('active');
+    }
+});
+
+window.addEventListener('resize', () => {
+    const sidebar = document.querySelector('.sidebar');
+    const topbar = document.querySelector('.topbar');
+    const content = document.querySelector('.content');
+
+    if (!sidebar || !content) {
+        return;
+    }
+
+    if (window.innerWidth <= 768) {
+        sidebar.classList.remove('hidden');
+        if (topbar) {
+            topbar.classList.remove('full-width');
+        }
+        content.classList.remove('full-width');
+        sidebar.classList.remove('active');
+        return;
+    }
+
+    sidebar.classList.remove('active');
 });
 
 function closeThemedControls(exceptElement = null) {
