@@ -214,10 +214,83 @@ $con->close();
     <title>Gatekeeper</title>
     <link rel="stylesheet" href="../global.css">
     <link rel="stylesheet" href="../user/CSS/modern-dashboard.css">
+    <style>
+        .mode-switcher {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .mode-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 10px 18px;
+            border-radius: 999px;
+            background: #e2e8f0;
+            color: #1e293b;
+            font-weight: 700;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        .mode-chip:hover {
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+
+        .mode-chip.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            box-shadow: 0 12px 24px -18px rgba(102, 126, 234, 0.85);
+        }
+
+        .gatekeeper-card {
+            max-width: 520px;
+        }
+
+        .status-block {
+            margin-top: 16px;
+            font-size: 16px;
+        }
+
+        .status-icon {
+            width: 90px;
+            margin-top: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .gatekeeper-card {
+                max-width: 100%;
+            }
+
+            .mode-switcher {
+                gap: 10px;
+            }
+
+            .mode-chip {
+                flex: 1 1 calc(50% - 10px);
+                min-width: 120px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mode-chip {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+    <script src="../user/javascript/script.js"></script>
 </head>
 <body>
     <?php include 'sidebar.php'; ?>
     <div class="content">
+        <?php
+        $current_mode = $mode;
+        include 'topbar.php';
+        ?>
         <div class="main-content">
             <div class="page-header">
                 <div>
@@ -226,7 +299,13 @@ $con->close();
                 </div>
             </div>
 
-            <div class="widget-card" style="max-width: 520px;">
+            <div class="mode-switcher" aria-label="Gatekeeper modes">
+                <a href="gatekeeper.php?mode=out" class="mode-chip <?php echo $mode === 'out' ? 'active' : ''; ?>">Out</a>
+                <a href="gatekeeper.php?mode=in" class="mode-chip <?php echo $mode === 'in' ? 'active' : ''; ?>">In</a>
+                <a href="gatekeeper.php?mode=leave" class="mode-chip <?php echo $mode === 'leave' ? 'active' : ''; ?>">Leave</a>
+            </div>
+
+            <div class="widget-card gatekeeper-card">
                 <form method="POST">
                     <div class="form-group">
                         <label for="otr_number">OTR Number</label>
@@ -235,8 +314,8 @@ $con->close();
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
                 <?php if (!empty($status_message)): ?>
-                    <div style="margin-top: 16px; font-size: 16px;"><?php echo $status_message; ?></div>
-                    <img style="width: 90px; margin-top: 12px;" src="<?php echo $image; ?>" alt="Status">
+                    <div class="status-block"><?php echo $status_message; ?></div>
+                    <img class="status-icon" src="<?php echo $image; ?>" alt="Status">
                 <?php endif; ?>
             </div>
 

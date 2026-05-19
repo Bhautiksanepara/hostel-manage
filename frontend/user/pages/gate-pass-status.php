@@ -38,37 +38,50 @@ include '../../../backend/user/gate-pass-status.php';
     <?php include 'topbar.php';?>
 
         <div class="main-content">
-            <h2 class="my-4">Gate Pass & Leave Requests Status</h2>
-            <table id="example" class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Type</th>
-                        <th>Reason</th>
-                        <th>Out Date</th>
-                        <th>Return Date</th>
-                        <th>Out Time</th>
-                        <th>In Time</th>
-                        <th>Status</th>
-                        <th>Created At</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($data)) : ?>
-                        <?php foreach ($data as $row) : ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($row['type']); ?></td>
-                                <td><?php echo htmlspecialchars($row['reason']); ?></td>
-                                <td><?php echo htmlspecialchars($row['date_from']); ?></td>
-                                <td><?php echo htmlspecialchars($row['date_to']); ?></td>
-                                <td><?php echo htmlspecialchars($row['out_time']); ?></td>
-                                <td><?php echo htmlspecialchars($row['in_time']); ?></td>
-                                <td><?php echo htmlspecialchars($row['status']); ?></td>
-                                <td><?php echo htmlspecialchars($row['created_at']); ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+            <div class="page-header">
+                <div>
+                    <h1>Gate Pass & Leave Requests Status</h1>
+                    <p>Review the approval status and timing of your submitted requests.</p>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <div class="table-header">
+                    <div>
+                        <h3>Request History</h3>
+                    </div>
+                </div>
+                <table id="example" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Reason</th>
+                            <th>Out Date</th>
+                            <th>Return Date</th>
+                            <th>Out Time</th>
+                            <th>In Time</th>
+                            <th>Status</th>
+                            <th>Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($data)) : ?>
+                            <?php foreach ($data as $row) : ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($row['type']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['reason']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['date_from']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['date_to']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['out_time']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['in_time']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['status']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['created_at']); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </body>

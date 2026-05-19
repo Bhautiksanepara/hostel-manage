@@ -10,7 +10,7 @@ $current_mode = in_array($current_mode, ['out', 'in', 'leave'], true) ? $current
     </div>
     <div class="sidebar-profile">
           <img src="../../photos/profile_photo.jpg" alt="Profile Picture">
-        <h6>Gatekeeper Panel</h6>
+        <p>Gatekeeper Panel</p>
     </div>
     <ul class="sidebar-menu">
         <li><a href="gatekeeper.php?mode=out" class="<?php echo $current_mode === 'out' ? 'active' : ''; ?>"><i class="fa-solid fa-right-from-bracket"></i> Out</a></li>

@@ -26,8 +26,13 @@ if (!isset($_SESSION['loggedIn']) || $_SESSION['loggedIn'] !== 1 || empty($_SESS
     <?php include 'topbar.php';?>
 
         <div class="main-content">
+            <div class="page-header">
+                <div>
+                    <h1>Gate Pass & Leave Request</h1>
+                    <p>Submit a new movement request with the expected dates and return time.</p>
+                </div>
+            </div>
             <div class="form-container">
-                <h2>Gate Pass & Leave Request</h2>
                 <form action="../../../backend/user/gate-pass.php" method="POST">
                     <!-- <div class="form-group">
                         <label for="otr_number">OTR Number:</label>

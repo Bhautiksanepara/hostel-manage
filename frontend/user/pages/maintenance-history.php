@@ -26,8 +26,9 @@ $result = $stmt->get_result();
     <title>Maintenance History</title>
     <link rel="stylesheet" href="../../global.css">
     <link rel="stylesheet" href="../CSS/modern-dashboard.css">
-    
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css">
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script>
         $(document).ready(function(){
             $('#historyTable').DataTable({
@@ -44,38 +45,52 @@ $result = $stmt->get_result();
     <?php include 'sidebar.php'; ?>
     <div class="content">
         <?php include 'topbar.php'; ?>
-        <h2>Maintenance Request History</h2>
+        <div class="main-content">
+            <div class="page-header">
+                <div>
+                    <h1>Maintenance Request History</h1>
+                    <p>Track issue status, submission time, and resolution progress.</p>
+                </div>
+            </div>
 
-        <table id="historyTable">
-            <thead>
-                <tr>
-                    <th>OTR Number</th>
-                    <th>Issue Type</th>
-                    <th>Issue</th>
-                    <th>Status</th>
-                    <th>Submitted At</th>
-                    <th>Solved At</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if ($result->num_rows > 0): ?>
-                    <?php while ($row = $result->fetch_assoc()): ?>
+            <div class="table-container">
+                <div class="table-header">
+                    <div>
+                        <h3>Submitted Issues</h3>
+                    </div>
+                </div>
+                <table id="historyTable">
+                    <thead>
                         <tr>
-                            <td><?php echo htmlspecialchars($row['otr_number']); ?></td>
-                            <td><?php echo htmlspecialchars($row['issue_type']); ?></td>
-                            <td><?php echo htmlspecialchars($row['issue']); ?></td>
-                            <td><?php echo htmlspecialchars($row['status']); ?></td>
-                            <td><?php echo htmlspecialchars($row['submitted_at']); ?></td>
-                            <td><?php echo htmlspecialchars($row['solved_at'] ?? 'Pending'); ?></td>
+                            <th>OTR Number</th>
+                            <th>Issue Type</th>
+                            <th>Issue</th>
+                            <th>Status</th>
+                            <th>Submitted At</th>
+                            <th>Solved At</th>
                         </tr>
-                    <?php endwhile; ?>
-                <?php else: ?>
-                    <tr>
-                        <td colspan="6">No maintenance issues submitted.</td>
-                    </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody>
+                        <?php if ($result->num_rows > 0): ?>
+                            <?php while ($row = $result->fetch_assoc()): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($row['otr_number']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['issue_type']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['issue']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['status']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['submitted_at']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['solved_at'] ?? 'Pending'); ?></td>
+                                </tr>
+                            <?php endwhile; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="6">No maintenance issues submitted.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </body>
 </html>

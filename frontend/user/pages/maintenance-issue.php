@@ -16,38 +16,45 @@
     ?>
     <div class="content">
         <?php include 'topbar.php';?>
-        <div class="container mt-4">
-            <h2>Describe the Maintenance Issue</h2>
-            <form action="../../../backend/user/submit_issue.php" method="post" enctype="multipart/form-data" class="mt-3">
-                
-                <!-- Dropdown for Maintenance Issue Type -->
-                <div class="form-group">
-                    <label for="issue_type">Select Issue Type:</label>
-                    <select id="issue_type" name="issue_type" class="form-control" required>
-                        <option value="">-- Select Issue --</option>
-                        <option value="Plumbing">Plumbing</option>
-                        <option value="Electrical">Electrical</option>
-                        <option value="Furniture">Furniture</option>
-                        <option value="Cleaning">Cleaning</option>
-                        <option value="Other">Other</option>
-                    </select>
+        <div class="main-content">
+            <div class="page-header">
+                <div>
+                    <h1>Describe the Maintenance Issue</h1>
+                    <p>Tell the hostel team what needs attention and attach a photo if it helps.</p>
                 </div>
+            </div>
+            <div class="container mt-4">
+                <form action="../../../backend/user/submit_issue.php" method="post" enctype="multipart/form-data" class="mt-3">
                 
-                <!-- Textarea for Issue Description -->
-                <div class="form-group">
-                    <label for="issue">Describe the Issue:</label>
-                    <textarea id="issue" name="issue" rows="5" class="form-control" required></textarea>
-                </div>
+                    <!-- Dropdown for Maintenance Issue Type -->
+                    <div class="form-group">
+                        <label for="issue_type">Select Issue Type:</label>
+                        <select id="issue_type" name="issue_type" class="form-control" required>
+                            <option value="">-- Select Issue --</option>
+                            <option value="Plumbing">Plumbing</option>
+                            <option value="Electrical">Electrical</option>
+                            <option value="Furniture">Furniture</option>
+                            <option value="Cleaning">Cleaning</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
                 
-                <!-- File Upload for Image (Optional) -->
-                <div class="form-group">
-                    <label for="issue_image">Upload Image (Optional):</label>
-                    <input type="file" id="issue_image" name="issue_image" class="form-control-file">
-                </div>
+                    <!-- Textarea for Issue Description -->
+                    <div class="form-group">
+                        <label for="issue">Describe the Issue:</label>
+                        <textarea id="issue" name="issue" rows="5" class="form-control" required></textarea>
+                    </div>
                 
-                <!-- Submit Button -->
-                <button type="submit" class="btn btn-primary">Submit Issue</button>
-            </form>
+                    <!-- File Upload for Image (Optional) -->
+                    <div class="form-group">
+                        <label for="issue_image">Upload Image (Optional):</label>
+                        <input type="file" id="issue_image" name="issue_image" class="form-control-file">
+                    </div>
+                
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary">Submit Issue</button>
+                </form>
+            </div>
         </div>
     </div>
 </body>

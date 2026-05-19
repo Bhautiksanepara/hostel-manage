@@ -245,6 +245,68 @@ $stmt->close();
             font-size: 12px;
             margin-top: 15px;
         }
+        @media (max-width: 768px) {
+            body {
+                padding: 16px;
+            }
+            .container-main {
+                margin: 20px auto;
+                padding: 24px 18px;
+            }
+            .header h1 {
+                font-size: 24px;
+            }
+            .fee-row {
+                flex-direction: column;
+                gap: 6px;
+                align-items: flex-start;
+            }
+            .amount-display {
+                font-size: 26px;
+            }
+            .qr-code img {
+                width: 240px;
+                height: 240px;
+            }
+            .btn-back {
+                width: 100%;
+                margin: 8px 0;
+            }
+        }
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+            }
+            .container-main {
+                margin: 12px auto;
+                padding: 18px 14px;
+            }
+            .header {
+                margin-bottom: 22px;
+                padding-bottom: 16px;
+            }
+            .header h1 {
+                font-size: 21px;
+            }
+            .qr-section,
+            .fee-details,
+            .amount-due,
+            .qr-instructions,
+            .security-note {
+                padding: 14px;
+            }
+            .qr-code {
+                padding: 12px;
+            }
+            .qr-code img {
+                width: min(100%, 200px);
+                height: auto;
+            }
+            .btn-custom {
+                padding: 10px 16px;
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>

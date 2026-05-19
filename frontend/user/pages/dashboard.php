@@ -54,7 +54,7 @@ include '../../../backend/user/dashboard.php'; // Fetch user data from backend
                 </div>
             </div>
 
-            <div class="section">
+            <div class="section table-container">
                 <h3>Latest Notices 📢</h3>
                 <table class="notice-table">
                     <thead>

@@ -24,6 +24,8 @@ body {
   display: grid;
   grid-template-columns: 1fr;
   gap: 30px;
+  width: 100%;
+  min-width: 0;
 }
 
 /* Fee Summary Cards */
@@ -32,6 +34,7 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
   margin-bottom: 30px;
+  width: 100%;
 }
 
 .fee-card {
@@ -40,6 +43,8 @@ body {
   padding: 30px;
   box-shadow: 0 24px 50px -30px rgba(15, 23, 42, 0.35);
   transition: all 0.3s;
+  width: 100%;
+  min-width: 0;
 }
 
 .fee-card:hover {
@@ -148,6 +153,7 @@ body {
 .fees-table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 560px;
 }
 
 .fees-table thead th {
@@ -463,6 +469,10 @@ body {
     padding: 20px;
   }
 
+  .table-container {
+    border-radius: 18px;
+  }
+
   .fee-amount {
     font-size: 36px;
   }
@@ -483,14 +493,23 @@ body {
 }
 
 @media (max-width: 480px) {
+  .content {
+    padding: 12px;
+  }
+
   .fee-header {
     flex-direction: column;
     gap: 12px;
   }
 
+  .fee-card,
+  .table-container {
+    padding: 16px;
+  }
+
   .fees-table thead th,
   .fees-table tbody td {
-    padding: 14px 12px;
+    padding: 12px 10px;
   }
 
   .direct-pay-link {
@@ -508,5 +527,10 @@ body {
 
   .fee-amount {
     font-size: 24px;
+  }
+
+  .fee-action .btn {
+    min-height: 46px;
+    font-size: 16px;
   }
 }

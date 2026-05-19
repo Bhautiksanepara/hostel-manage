@@ -114,8 +114,12 @@ $requests = $stmt->get_result();
             </form>
         </div>
 
-        <div class="section">
-            <h3>Request History</h3>
+        <div class="section table-container">
+            <div class="table-header">
+                <div>
+                    <h3>Request History</h3>
+                </div>
+            </div>
             <table>
                 <thead>
                     <tr>
