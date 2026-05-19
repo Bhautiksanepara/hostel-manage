@@ -49,7 +49,6 @@ Your hostel management system has been successfully analyzed, debugged, and conf
 | # | Table | Purpose | Records |
 |---|-------|---------|---------|
 | 1 | users | Student profiles & authentication | ✅ Sample data |
-| 2 | admin_users | Admin accounts | ✅ Ready |
 | 3 | rooms | Hostel room management | ✅ Sample data |
 | 4 | gatepass | Gate pass requests | ✅ Sample data |
 | 5 | icard_requests | ICard requests | ✅ Ready |
@@ -75,19 +74,7 @@ A centralized hub for managing the entire system with quick access to:
 - Quick links to all admin tools
 - Project information and credentials reference
 
-### 2. **Admin Manager**
-
-**Location:** `http://localhost/hostel-manage/admin_manager.php`
-
-Features:
-
-- ✅ Create new admin accounts with secure passwords
-- ✅ View all existing admin accounts
-- ✅ Delete admin accounts (with protection for default account)
-- ✅ Password hashing using PHP's password_hash()
-- ✅ Validation for email and password strength
-
-### 3. **Email Configuration Manager**
+### 2. **Email Configuration Manager**
 
 **Location:** `http://localhost/hostel-manage/email_config.php`
 
@@ -159,7 +146,7 @@ All are pre-verified and can login after setting a password.
 
 ### **Create New Admin Account**
 
-Use the Admin Manager tool: `/admin_manager.php`
+Admin login uses fixed local credentials in `backend/user/login.php`.
 
 ---
 
@@ -330,7 +317,6 @@ http://localhost/hostel-manage/control_panel.php
 hostel-manage/
 ├── index.php                          # Landing page
 ├── control_panel.php                  # Management dashboard (NEW)
-├── admin_manager.php                  # Admin account manager (NEW)
 ├── email_config.php                   # Email configuration tool (NEW)
 ├── db_test.php                        # Database test page (NEW)
 ├── hostel_manage.sql                  # Database schema (UPDATED)
@@ -408,7 +394,6 @@ hostel-manage/
 | -------------- | ----------------------------------- | -------------- |
 | Database       | hostel_manage                       | ✅ Active      |
 | Control Panel  | /control_panel.php                  | ✅ Ready       |
-| Admin Manager  | /admin_manager.php                  | ✅ Ready       |
 | Email Config   | /email_config.php                   | ⏳ Needs setup |
 | Student Portal | /frontend/user/pages/login.php      | ✅ Ready       |
 | Admin Portal   | /frontend/admin/pages/dashboard.php | ✅ Ready       |

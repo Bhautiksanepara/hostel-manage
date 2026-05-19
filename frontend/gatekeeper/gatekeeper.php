@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $query = "SELECT id, status, type, date_from, date_to, out_time, in_time, check_out_time, check_out_date, check_in_time, check_in_date, late_entry
                       FROM gatepass
                       WHERE otr_number = ? AND type = ? AND status = 'Approved'
-                      ORDER BY date_from ASC, out_time ASC, id ASC";
+                      ORDER BY date_from DESC, out_time DESC, id DESC";
             $stmt = $con->prepare($query);
             $stmt->bind_param("ss", $otr_number, $passType);
         }

@@ -26,7 +26,12 @@ class UPIQRCodeGenerator {
      */
     private function loadUPIConfig() {
         if (!$this->conn) return false;
-        
+
+        if (!$this->ensureUPIConfigTable()) {
+            error_log("UPI config table is unavailable; using default Pateldham Hostel UPI configuration.");
+            return false;
+        }
+
         $result = $this->conn->query("SELECT upi_id, receiving_name, merchant_category FROM upi_config WHERE is_active = 1 LIMIT 1");
         if ($result && $result->num_rows > 0) {
             $config = $result->fetch_assoc();
@@ -40,6 +45,36 @@ class UPIQRCodeGenerator {
         // has not been imported yet. Admin can still override this later.
         error_log("UPI config not found; using default Pateldham Hostel UPI configuration.");
         return false;
+    }
+
+    /**
+     * Ensure the optional UPI settings table exists.
+     *
+     * Older database exports did not include this table, so student fee pages
+     * could crash before the default UPI values were used.
+     */
+    private function ensureUPIConfigTable() {
+        try {
+            $this->conn->query("CREATE TABLE IF NOT EXISTS upi_config (
+                id INT(11) NOT NULL AUTO_INCREMENT,
+                upi_id VARCHAR(100) NOT NULL,
+                receiving_name VARCHAR(150) NOT NULL,
+                merchant_category VARCHAR(100) NOT NULL DEFAULT 'Education',
+                is_active TINYINT(1) NOT NULL DEFAULT 1,
+                created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                PRIMARY KEY (id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci");
+
+            $this->conn->query("INSERT INTO upi_config (upi_id, receiving_name, merchant_category, is_active)
+                SELECT 'pateldham@upi', 'Pateldham Hostel', 'Education', 1
+                WHERE NOT EXISTS (SELECT 1 FROM upi_config LIMIT 1)");
+
+            return true;
+        } catch (Throwable $e) {
+            error_log("Unable to prepare UPI config table: " . $e->getMessage());
+            return false;
+        }
     }
     
     /**

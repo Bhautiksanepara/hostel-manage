@@ -26,3 +26,4 @@ if (!isset($_SESSION['otr_number'])) {
 if (isset($_GET['success']) && $_GET['success'] == 1) {
     echo '<script>alert("Receipt uploaded successfully!");</script>';
 }
+?>

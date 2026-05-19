@@ -82,20 +82,6 @@ echo "</div>";
 // Management Tools
 echo "<div class='grid'>";
 
-// Admin Manager
-echo "<div class='card'>";
-echo "<h3><span>👨‍💼</span> Admin Accounts</h3>";
-echo "<p>Create, manage, and monitor administrator accounts for your system.</p>";
-echo "<div style='margin-bottom: 10px;'>";
-if ($db_status === 'online') {
-    $result = $conn->query('SELECT COUNT(*) as count FROM admin_users');
-    $admin_count = $result->fetch_assoc()['count'];
-    echo "Active Admins: <strong>$admin_count</strong>";
-}
-echo "</div>";
-echo "<a href='admin_manager.php' class='btn btn-secondary'>Manage Admins</a>";
-echo "</div>";
-
 // Email Configuration
 echo "<div class='card'>";
 echo "<h3><span>📧</span> Email Configuration</h3>";
@@ -180,14 +166,13 @@ if ($db_status === 'online') {
         ['💰 Fee Management', 'fees'],
         ['🔧 Maintenance Issues', 'maintenance_issues'],
         ['📄 Receipts', 'receipts'],
-        ['👨‍💼 Admin Users', 'admin_users'],
         ['💬 Contact Messages', 'contact_messages'],
     ];
     
     foreach ($features as $feature) {
-        $check = $conn->query(\"SHOW TABLES LIKE '{$feature[1]}'\");
+        $check = $conn->query("SHOW TABLES LIKE '{$feature[1]}'");
         $exists = $check && $check->num_rows > 0 ? '✅ Active' : '❌ Missing';
-        echo \"<tr><td>{$feature[0]}</td><td>$exists</td><td>{$feature[1]}</td></tr>\";
+        echo "<tr><td>{$feature[0]}</td><td>$exists</td><td>{$feature[1]}</td></tr>";
     }
     
     echo "</table>";

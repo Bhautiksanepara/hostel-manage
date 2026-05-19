@@ -64,7 +64,7 @@ document.addEventListener("keydown", (event) => {
 
 function initializeThemedSelects() {
   const selects = document.querySelectorAll(
-    "select:not(.themed-native-select)",
+    "select:not(.themed-native-select):not(.js-native-select)",
   );
 
   selects.forEach((select) => {

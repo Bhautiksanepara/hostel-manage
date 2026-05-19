@@ -71,7 +71,7 @@
 
   <footer>
     <p>© 2025 Pateldham Hostel Management. All rights reserved.</p>
-    <p>Maintain By TirthBhayani</p>
+    <p>Maintain By RuchiManvar</p>
   </footer>
 
   <script>

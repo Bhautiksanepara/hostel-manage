@@ -114,8 +114,7 @@ After admin login, test these features:
 
 ### **Issue: "Invalid credentials" on login**
 
-- **Solution:** Check if admin user exists in admin_users table
-- The test_connection.php script will automatically create it if missing
+- **Solution:** Use the fixed local admin credentials from `backend/user/login.php`: `admin@example.com` / `admin123`
 
 ### **Issue: Images not loading**
 

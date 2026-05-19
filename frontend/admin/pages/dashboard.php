@@ -35,7 +35,7 @@ $conn->close();
     <title>Admin Dashboard - SDHostel</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="../../../global.css">
+    <link rel="stylesheet" href="../../global.css">
     <link rel="stylesheet" href="../CSS/modern-admin.css">
     <script src="../javascript/script.js"></script>
 </head>

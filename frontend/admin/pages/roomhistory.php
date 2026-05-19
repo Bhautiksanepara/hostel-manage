@@ -7,38 +7,43 @@ include '../../../backend/dbconnection.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Room Allocation</title>
-    <link rel="stylesheet" href="../../../global.css">
+    <link rel="stylesheet" href="../../global.css">
     <link rel="stylesheet" href="../CSS/modern-admin.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../javascript/script.js"></script>
+    <script src="../javascript/script.js?v=room-change-fix"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <style>
         .room-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            padding: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 14px;
+            padding: 16px 0;
         }
 
         .room-card {
-            width: 200px;
-            height: 180px;
-            background: #f4f4f4;
-            border-radius: 12px;
+            min-height: 132px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
             text-align: center;
-            padding: 15px;
+            padding: 14px;
             cursor: pointer;
-            transition: 0.3s ease-in-out;
+            transition: 0.2s ease-in-out;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 12px 28px -24px rgba(15, 23, 42, 0.45);
+        }
+
+        .room-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
         }
 
         .room-full {
-            background: #ff4d4d !important;
+            background: #ef4444 !important;
             color: white;
         }
 
@@ -48,9 +53,8 @@ include '../../../backend/dbconnection.php';
         }
 
         .room-number {
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: bold;
-            margin-bottom: 10px;
         }
 
         .beds {
@@ -69,38 +73,63 @@ include '../../../backend/dbconnection.php';
             color: #ccc;
         }
 
-        .modal {
+        .room-change-modal {
             display: none;
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
-            width: 350px;
-            text-align: center;
+            padding: 18px;
+            border-radius: 8px;
+            box-shadow: 0 24px 60px -24px rgba(15, 23, 42, 0.55);
+            width: min(420px, calc(100vw - 32px));
+            z-index: 1002;
+        }
+
+        .room-change-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.35);
+            z-index: 1001;
+        }
+
+        .room-change-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .room-change-header h3 {
+            margin: 0;
+            font-size: 18px;
         }
 
         .close {
-            float: right;
             cursor: pointer;
-            font-size: 20px;
-            color: red;
+            font-size: 18px;
+            color: #64748b;
         }
 
         #studentList {
             list-style-type: none;
             padding: 0;
+            margin: 0 0 14px;
+            max-height: 190px;
+            overflow-y: auto;
         }
 
         #studentList li {
-            background: #f4f4f4;
-            margin: 5px 0;
-            padding: 8px;
-            border-radius: 5px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            margin: 6px 0;
+            padding: 10px 12px;
+            border-radius: 8px;
             cursor: pointer;
+            text-align: left;
         }
 
         .selected-student {
@@ -110,20 +139,39 @@ include '../../../backend/dbconnection.php';
 
         #availableRoomsDropdown {
             display: none;
-            margin-top: 10px;
-            padding: 8px;
+            margin-top: 8px;
+            padding: 10px 12px;
             width: 100%;
+            height: 44px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background-color: #ffffff;
+            color: #1e293b;
+            font-size: 14px;
+            opacity: 1;
+            pointer-events: auto;
+            position: static;
+            appearance: auto;
+            background-image: none;
         }
 
         #changeRoomBtn {
             display: none;
-            margin-top: 10px;
+            width: 100%;
+            margin-top: 12px;
             padding: 8px 12px;
-            background: #3498db;
+            background: #2563eb;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
+        }
+
+        #roomChangeStatus {
+            margin-top: 10px;
+            min-height: 18px;
+            color: #dc2626;
+            font-size: 13px;
         }
     </style>
 </head>
@@ -156,13 +204,17 @@ include '../../../backend/dbconnection.php';
         ?>
     </div>
 
-    <div id="roomModal" class="modal">
-        <span class="close"><i class="fas fa-times"></i></span>
-        <h3>Students in Room <span id="roomNumber"></span></h3>
-        <div class="modal-content">
+    <div id="roomBackdrop" class="room-change-backdrop"></div>
+    <div id="roomModal" class="room-change-modal">
+        <div class="room-change-header">
+            <h3>Room <span id="roomNumber"></span></h3>
+            <span class="close"><i class="fas fa-times"></i></span>
+        </div>
+        <div class="room-change-content">
             <ul id="studentList"></ul>
-            <select id="availableRoomsDropdown"></select>
+            <select id="availableRoomsDropdown" class="js-native-select"></select>
             <button id="changeRoomBtn">Change Room</button>
+            <div id="roomChangeStatus"></div>
         </div>
     </div>
 </div>
@@ -170,9 +222,32 @@ include '../../../backend/dbconnection.php';
 <script>
    $(document).ready(function () {
     let selectedStudent = null;
+    let selectedRoom = null;
+
+    function openRoomModal() {
+        $("#roomBackdrop").show();
+        $("#roomModal").show();
+    }
+
+    function closeRoomModal() {
+        $("#roomBackdrop").hide();
+        $("#roomModal").hide();
+        selectedStudent = null;
+        $("#availableRoomsDropdown").hide().html("");
+        $("#changeRoomBtn").hide();
+        $("#roomChangeStatus").text("");
+    }
 
     $(".room-card").on("click", function () {
         let room_id = $(this).data("room");
+        selectedRoom = room_id;
+        selectedStudent = null;
+        $("#availableRoomsDropdown").hide().html("");
+        $("#changeRoomBtn").hide();
+        $("#roomChangeStatus").text("");
+        $("#studentList").html("<li data-empty=\"1\">Loading students...</li>");
+        $("#roomNumber").text($(this).find(".room-number").text().replace("Room ", ""));
+        openRoomModal();
 
         $.ajax({
             url: "fetch_students.php",
@@ -180,13 +255,18 @@ include '../../../backend/dbconnection.php';
             data: { room_id: room_id },
             success: function (response) {
                 $("#studentList").html(response);
-                $("#roomModal").show();
-                $("#roomNumber").text(room_id);
+            },
+            error: function () {
+                $("#studentList").html("<li data-empty=\"1\">Unable to load students</li>");
             }
         });
     });
 
     $("#studentList").on("click", "li", function () {
+        if ($(this).data("empty")) {
+            return;
+        }
+
         $("#studentList li").removeClass("selected-student");
         $(this).addClass("selected-student");
         selectedStudent = $(this).data("student-id");
@@ -194,22 +274,37 @@ include '../../../backend/dbconnection.php';
         $.ajax({
             url: "fetch_available_rooms.php",
             type: "GET",
+            data: { current_room_id: selectedRoom },
             success: function (response) {
-                let rooms = JSON.parse(response);
+                let rooms = typeof response === "string" ? JSON.parse(response) : response;
                 let dropdown = $("#availableRoomsDropdown");
                 dropdown.html('<option value="">Select a room</option>');
 
                 rooms.forEach(room => {
-                    dropdown.append(`<option value="${room.room_id}">Room ${room.room_number}</option>`);
+                    dropdown.append(`<option value="${room.room_id}">Room ${room.room_number} (${room.occupants}/4)</option>`);
                 });
+
+                if (rooms.length === 0) {
+                    dropdown.append('<option value="" disabled>No available rooms</option>');
+                }
 
                 dropdown.show();
                 $("#changeRoomBtn").show();
+                $("#roomChangeStatus").text("");
+            },
+            error: function (xhr) {
+                $("#roomChangeStatus").text("Unable to load available rooms.");
+                console.error("Available rooms error:", xhr.responseText);
             }
         });
     });
 
     $("#changeRoomBtn").on("click", function () {
+        if (!selectedStudent) {
+            alert("Please select a student first.");
+            return;
+        }
+
         let newRoomId = $("#availableRoomsDropdown").val();
         if (!newRoomId) {
             alert("Please select a room first.");
@@ -223,19 +318,18 @@ include '../../../backend/dbconnection.php';
             type: "POST",
             data: { student_id: selectedStudent, new_room_id: newRoomId },
             success: function (response) {
-                let res = JSON.parse(response);
+                let res = typeof response === "string" ? JSON.parse(response) : response;
                 alert(res.message);
                 if (res.status === "success") location.reload();
+            },
+            error: function (xhr) {
+                $("#roomChangeStatus").text("Unable to change room.");
+                console.error("Change room error:", xhr.responseText);
             }
         });
     });
 
-    $(".close").on("click", function () {
-        $("#roomModal").hide();
-        selectedStudent = null;
-        $("#availableRoomsDropdown").hide();
-        $("#changeRoomBtn").hide();
-    });
+    $(".close, #roomBackdrop").on("click", closeRoomModal);
 });
 
 </script>

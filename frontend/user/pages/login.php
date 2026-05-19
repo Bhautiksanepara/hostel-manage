@@ -23,7 +23,7 @@ include '../../../backend/user/login.php';
         </div>
         <div class="auth-right">
             <div class="auth-form">
-                <h3>Student Login</h3>
+                <h3>Login</h3>
                 <p class="subtitle">Enter your registered email and password.</p>
                 <?php if ($msg != "") echo '<div class="alert alert-danger">' . $msg . '</div>'; ?>
                 <form method="post" action="login.php">

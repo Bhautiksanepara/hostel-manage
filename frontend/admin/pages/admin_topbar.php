@@ -7,7 +7,7 @@
     </div>
     <div class="admin-topbar-right">
         <div class="admin-topbar-user">
-            <img src="../photos/Gpay.png" alt="Profile Picture">
+           <img src="../../../photos/profile_photo.jpg" alt="Profile Picture">
             <span>Admin</span>
         </div>
         <a href="logout.php" class="admin-topbar-logout" aria-label="Logout">

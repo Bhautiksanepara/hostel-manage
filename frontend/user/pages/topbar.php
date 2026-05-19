@@ -7,7 +7,7 @@
     </div>
     <div class="topbar-right">
         <div class="topbar-user">
-            <img src="../photos/Gpay.png" alt="Profile Picture">
+           <img src="../../../photos/profile_photo.jpg" alt="Profile Picture">
             <span>Student</span>
         </div>
         <a href="logout.php" class="topbar-logout">

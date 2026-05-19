@@ -117,7 +117,6 @@ The application improves transparency, reduces manual workload, prevents data du
 | Table 5.1.1 | Architectural Layers | - |
 | Table 5.3.1 | Access Matrix | - |
 | Table 5.6.1 | Users Table | - |
-| Table 5.6.2 | Admin Users Table | - |
 | Table 5.6.3 | Rooms Table | - |
 | Table 5.6.4 | Fees Table | - |
 | Table 5.6.5 | Receipts Table | - |
@@ -257,7 +256,7 @@ The initial phase focused on identifying the problems faced by students, hostel 
 
 **System Design**
 
-The database schema was designed with tables for users, rooms, fees, receipts, gate passes, maintenance issues, admin users, I-card requests, and contact messages. The system was separated into frontend pages and backend PHP scripts to keep the workflow modular.
+The database schema was designed with tables for users, rooms, fees, receipts, gate passes, maintenance issues, I-card requests, and contact messages. The system was separated into frontend pages and backend PHP scripts to keep the workflow modular.
 
 **Frontend Development**
 
@@ -503,7 +502,7 @@ Table 4.5.1 Key Features
 | --- | --- | --- |
 | Presentation Layer | HTML, CSS, JavaScript, Bootstrap | Provides user interface for student, admin, gatekeeper, and public pages. |
 | Application Layer | PHP | Handles sessions, validation, database queries, forms, uploads, email, QR code generation, and PDF generation. |
-| Data Layer | MySQL / MariaDB | Stores student records, admin users, rooms, fees, receipts, gate passes, complaints, and contact messages. |
+| Data Layer | MySQL / MariaDB | Stores student records, rooms, fees, receipts, gate passes, complaints, and contact messages. |
 | External Services | SMTP, QR Server API / UPI QR logic | Sends emails and generates UPI payment QR codes. |
 
 Table 5.1.1 Architectural Layers
@@ -521,7 +520,6 @@ hostel_manage
 Main database tables:
 
 - `users`
-- `admin_users`
 - `rooms`
 - `fees`
 - `receipts`
@@ -647,17 +645,6 @@ Student submits complaint details and optional image. The backend stores the iss
 | fees_status | enum | Default unpaid | Student fee status. |
 
 Table 5.6.1 Users
-
-### 5.6.2 Table: `admin_users`
-
-| Field Name | Data Type | Constraints | Description |
-| --- | --- | --- | --- |
-| id | int | Primary Key, Auto Increment | Unique admin ID. |
-| email | varchar(255) | Unique, Not Null | Admin email. |
-| password | varchar(255) | Not Null | Admin password hash. |
-| created_at | timestamp | Default current timestamp | Admin account creation time. |
-
-Table 5.6.2 Admin Users
 
 ### 5.6.3 Table: `rooms`
 
@@ -850,7 +837,6 @@ hostel-manage/
   uploads/
   hostel_manage.sql
   control_panel.php
-  admin_manager.php
   email_config.php
   db_test.php
 ```
@@ -974,7 +960,6 @@ Table 7.2.1 Test Result and Analysis
 | Database name mismatch | Standardized database name as `hostel_manage`. |
 | QR generation issue | Improved QR generation using a more reliable QR service and validation. |
 | Email configuration difficulty | Added `email_config.php` and reusable `EmailHelper.php`. |
-| Admin account creation | Added `admin_manager.php` utility for managing admin users. |
 | Database verification complexity | Added `db_test.php` and `test_connection.php` for quick checks. |
 | UI consistency issues | Added modern CSS files for admin, auth, dashboard, and fees pages. |
 
@@ -1005,7 +990,6 @@ Table 7.3.1 Bug Fixes and Resolutions
 - Add visitor management module.
 - Add biometric or QR-based attendance.
 - Add advanced PDF reports for monthly fee collection and gate pass history.
-- Add role management for multiple admins.
 - Add multi-hostel branch support.
 - Add dashboard charts and analytics.
 - Add REST APIs for mobile application support.
@@ -1121,7 +1105,6 @@ This section is reserved for code screenshots in the final report document. Reco
 | Page / Script | Usage |
 | --- | --- |
 | `/control_panel.php` | Central system control panel. |
-| `/admin_manager.php` | Admin account management utility. |
 | `/email_config.php` | SMTP/email configuration page. |
 | `/db_test.php` | Database connection and table status test. |
 | `/test_connection.php` | Basic database verification test. |
